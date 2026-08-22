@@ -1,0 +1,13 @@
+---
+description: Python scraper conventions for ScrapeWork
+globs: "scrapers/**/*.py"
+alwaysApply: false
+---
+
+# Python scrapers
+
+- Follow `.cursorrules/scraping.md` and `.cursorrules/stack.md`.
+- One scraper module per platform; normalize to the raw job contract in `.cursorrules/schema.md`.
+- POST to n8n webhook only — no LLM calls inside scrapers.
+- Secrets via env; never hardcode cookies or keys.
+- No separate Flask API — dashboard HTTP lives in `web/app/api/`.

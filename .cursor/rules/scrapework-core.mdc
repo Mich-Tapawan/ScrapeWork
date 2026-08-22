@@ -1,0 +1,22 @@
+---
+description: ScrapeWork product context and agent non-negotiables
+alwaysApply: true
+---
+
+# ScrapeWork
+
+Personal freelance intelligence watchtower + pitch engine (OnlineJobs.ph, Upwork, Fiverr → LLM score/pitches → Supabase → dashboard + Telegram/Discord).
+
+Before coding, read `.cursorrules/AGENTS.md` and the relevant doc in `.cursorrules/` (`MVP.md`, `architecture.md`, `stack.md`, `scraping.md`, `ui.md`, `schema.md`).
+
+## Non-negotiables
+
+- Do not auto-submit applications or message clients — drafts and links only.
+- Never commit secrets (cookies, API keys, `.env`, session storage).
+- Staggered polling with jitter; no aggressive scraping.
+- Validate LLM JSON before DB writes; alert only when `match_score >= 75`.
+- Scrapers extract only; n8n/LLM enrich; `web/` reads Supabase — keep those boundaries.
+
+## Layout
+
+Packages: `web/`, `scrapers/`, `supabase/`, `n8n/`. Dashboard Route Handlers: `web/app/api/`. Put new code in the matching package only.

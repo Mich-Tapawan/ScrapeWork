@@ -1,0 +1,15 @@
+# Local secrets only — keep .cursorrules/ agent docs tracked
+.env
+.env.*
+!.env.example
+**/cookies*.json
+**/storageState*.json
+**/secrets/
+
+# Python
+**/.venv/
+**/__pycache__/
+*.pyc
+
+# Node (if installed at repo root)
+/node_modules/

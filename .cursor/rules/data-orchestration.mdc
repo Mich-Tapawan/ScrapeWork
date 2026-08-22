@@ -1,0 +1,13 @@
+---
+description: Supabase schema and n8n workflow conventions
+globs: "{supabase,n8n}/**/*"
+alwaysApply: false
+---
+
+# Supabase + n8n
+
+- Schema changes: migration + update `.cursorrules/schema.md` together.
+- Tables: `job_listings`, `user_assets` (see schema doc).
+- n8n owns LLM analysis, pitch generation, asset injection, and alert routing.
+- Keep exported workflow JSON in `n8n/`; align system prompt with `MVP.md` §7.
+- Asset vault stores URLs only.
