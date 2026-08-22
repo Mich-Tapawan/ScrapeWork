@@ -8,8 +8,8 @@ alwaysApply: false
 
 - Follow `.cursorrules/ui.md` and `.cursorrules/stack.md` (web section).
 - App Router + TypeScript; Server Components by default.
-- Features: job feed, pitch drawer (copy cover/email/DM), asset URL manager.
-- Render DB `generated_*` fields — do not re-generate pitches in the browser.
+- Features: job feed, job drawer (Draft Pitch → then copy cover/email/DM), asset URL manager.
+- `generated_*` are NULL until Draft Pitch. Trigger Stage 2 via Route Handler / n8n — never invent pitch text in the browser.
 - Read `web/AGENTS.md` before using unfamiliar Next APIs (Next 16 may differ from training data).
-- Optional HTTP endpoints: `web/app/api/**/route.ts` (App Router Route Handlers). Prefer Supabase for data access.
-- No scrape or OpenAI scoring logic inside the Next app.
+- Optional HTTP endpoints: `web/app/api/**/route.ts`. Prefer Supabase for data access.
+- No scrape or Stage 1 scoring logic inside the Next app UI.

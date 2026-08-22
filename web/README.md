@@ -1,6 +1,6 @@
 # ScrapeWork Dashboard (`web/`)
 
-Next.js App Router UI for the job feed, pitch drawer, and asset manager.
+Next.js App Router UI for the job feed, Draft Pitch flow, and asset manager.
 
 ```bash
 npm install

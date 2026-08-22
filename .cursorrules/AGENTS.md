@@ -4,7 +4,7 @@ Read this file before writing code. Product requirements live in `MVP.md`.
 
 ## What this product is
 
-ScrapeWork is a **personal** freelance intelligence watchtower + pitch engine. It scrapes OnlineJobs.ph, Upwork, and Fiverr, scores fit with an LLM, drafts cover letters / emails / cold DMs, stores verification asset links, and surfaces high-fit jobs in a dashboard with Telegram/Discord alerts.
+ScrapeWork is a **personal** freelance intelligence watchtower + on-demand pitch engine. It scrapes OnlineJobs.ph, Upwork, and Fiverr, scores fit with a cheap LLM filter (no pitches yet), alerts on high-fit jobs, and drafts cover letters / emails / cold DMs **only when the user clicks "Draft Pitch"**. Verification asset links are stored for injection at draft time.
 
 This is a personal tool, not a multi-tenant SaaS. Prefer simplicity over abstraction.
 
@@ -21,12 +21,12 @@ This is a personal tool, not a multi-tenant SaaS. Prefer simplicity over abstrac
 
 ## Non-negotiables
 
-1. **Do not auto-submit applications.** Generate pitches and links; the human applies.
+1. **Do not auto-submit applications.** Generate pitches only on user "Draft Pitch"; the human applies.
 2. **Never commit secrets** — cookies, API keys, session tokens, `.env`, n8n credentials.
 3. **Respect platform ToS and rate limits** — staggered polling + jitter; no aggressive hammering.
-4. **LLM output must be valid JSON** matching the pitch/analysis schema; validate before DB write.
-5. **Match score ≥ 75** triggers high-priority alerts only.
-6. **Asset vault** stores URLs only (Drive/Storage links), not binary files in git.
+4. **Two LLM stages:** Stage 1 = filter JSON only (every job); Stage 2 = pitches (on demand). Validate JSON before DB write. Never generate pitches in Stage 1.
+5. **Match score ≥ 75** triggers high-priority alerts only (score + link, not pitch preview).
+6. **Asset vault** stores URLs only (Drive/Storage links), not binary files in git. Inject assets in Stage 2 only.
 
 ## How to work
 

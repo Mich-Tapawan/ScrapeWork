@@ -14,7 +14,11 @@ class RawJob:
     raw_description: str
     url: str
     client_name: str | None = None
-    budget_or_rate: str | None = None
+    employer_email: str | None = None
+    salary_raw: str | None = None
+    salary_min: float | None = None
+    salary_max: float | None = None
+    currency: str | None = None
     posted_at: str | None = None
 
     def to_dict(self) -> dict[str, Any]:

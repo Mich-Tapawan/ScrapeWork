@@ -3,13 +3,14 @@
 ## Screens (MVP)
 
 1. **Watchtower feed** — jobs sorted by match score or timestamp; platform badges.
-2. **Pitch drawer** — cover letter, short email, cold DM; one-click copy each.
-3. **Asset manager** — view/update Drive (or storage) URLs for typing / speed / English proofs.
+2. **Job drawer** — score, summary, skills, red flags; **"Draft Pitch"** CTA when `generated_*` are NULL; after Stage 2, show cover / email / DM with Copy.
+3. **Asset manager / profile** — update Drive proof URLs (`user_assets`) and baseline `user_profile` without modifying code.
 
 ## UX rules
 
-- One primary job per interaction: scan feed → open drawer → copy pitch.
+- One primary job per interaction: scan feed → open drawer → Draft Pitch (if needed) → copy.
 - Show match score prominently; badge high-fit (≥ 75) clearly.
+- Do not imply pitches exist before Draft Pitch — empty/NULL state is normal.
 - Copy-to-clipboard must work without leaving the page.
 - Asset manager is a simple form/modal — no card-heavy marketing layout.
 - Personal tool aesthetic: dense, readable, fast — not a landing page.
@@ -20,5 +21,6 @@ Follow the project frontend design rules when building marketing surfaces; the *
 
 ## Data display
 
-- Never invent pitch text client-side if DB fields exist — render `generated_*` columns.
-- Empty states: explain that scrapers/n8n have not produced jobs yet.
+- Render Stage 1 fields from DB always.
+- Render `generated_*` only when present; otherwise show Draft Pitch (trigger Stage 2 — never invent pitch text client-side).
+- Empty feed: explain that scrapers/n8n have not produced jobs yet.

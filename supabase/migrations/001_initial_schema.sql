@@ -8,10 +8,11 @@ CREATE TABLE IF NOT EXISTS job_listings (
     client_name TEXT,
     raw_description TEXT NOT NULL,
     url TEXT NOT NULL,
-    match_score INT NOT NULL,
+    match_score INT NOT NULL,                 -- Stage 1 LLM (0-100)
     llm_summary TEXT,
     key_skills TEXT[],
     red_flags TEXT[],
+    -- NULL until user clicks Draft Pitch (Stage 2)
     generated_cover_letter TEXT,
     generated_email TEXT,
     generated_cold_dm TEXT,

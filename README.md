@@ -1,6 +1,6 @@
 # ScrapeWork
 
-Personal freelance intelligence watchtower + pitch engine.
+Personal freelance intelligence watchtower + on-demand pitch engine (score on ingest; draft pitches only when you click Draft Pitch).
 
 ## Packages
 

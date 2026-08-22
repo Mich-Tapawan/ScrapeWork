@@ -20,4 +20,4 @@ Personal monitoring tool. Agents must optimize for **stealth and longevity**, no
 
 ## Payload handoff
 
-Scrapers only extract and POST to the n8n ingest webhook. Scoring and pitches happen downstream.
+Scrapers only extract and POST to the n8n Stage 1 ingest webhook. Scoring is Stage 1 downstream; pitches are Stage 2 (user "Draft Pitch") — never in scrapers.

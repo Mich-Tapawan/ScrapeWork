@@ -5,20 +5,30 @@
 ```
 Cron / schedule
   → platform scrapers (OnlineJobs.ph | Upwork | Fiverr)
-  → n8n ingest webhook
-  → LLM analysis (score, summary, 3 pitch formats, asset link injection)
-  → Supabase save + asset vault lookup
-  → high-fit alert (Telegram / Discord) if match_score ≥ 75
-  → ScrapeWork dashboard (read from Supabase)
+  → n8n Stage 1 ingest
+  → cheap LLM filter (match_score, summary, skills, red_flags)
+  → Supabase save (generated_* left NULL)
+  → if match_score ≥ 75 → Telegram/Discord alert (score + link, no pitch)
+  → Watchtower UI
+  → user clicks "Draft Pitch"
+  → Stage 2 pitch generator (n8n or web Route Handler → LLM)
+  → save cover_letter / email / cold_dm on that job row
 ```
+
+## Two LLM stages
+
+| Stage | When | Output | Must not |
+|-------|------|--------|----------|
+| 1 — Filter | Every ingested job | score, summary, skills, red_flags | Generate pitches |
+| 2 — Pitch | User clicks "Draft Pitch" | cover letter, email, cold DM (+ asset links if needed) | Run for every scrape |
 
 ## Package boundaries
 
 | Package | Responsibility | Must not |
 |---------|----------------|----------|
-| `web/` | Watchtower UI + optional Next.js Route Handlers under `app/api/` | Scrape sites or call OpenAI directly for scoring |
-| `scrapers/` | Extract raw job payloads; push to n8n webhook | Call LLM or write pitches |
-| `n8n/` | Orchestration, LLM nodes, alert routing | Store business UI |
+| `web/` | Watchtower UI; trigger Stage 2 via Route Handler or n8n webhook | Scrape sites; run Stage 1 scoring in the browser |
+| `scrapers/` | Extract raw job payloads; push to n8n Stage 1 webhook | Call LLM or write pitches |
+| `n8n/` | Stage 1 ingest + alerts; optional Stage 2 workflow | Store business UI |
 | `supabase/` | Schema, migrations, RLS if any, storage metadata | Application logic |
 
 ## Repo layout
@@ -36,11 +46,12 @@ ScrapeWork/
 
 ## Backend note
 
-No separate Flask service. Prefer Supabase from Server Components / client; use `web/app/api/**/route.ts` only when you need a server endpoint (secrets, webhooks into the dashboard app).
+No separate Flask service. Prefer Supabase from Server Components / client; use `web/app/api/**/route.ts` when triggering Stage 2 or hiding secrets.
 
 ## Contracts
 
-- Scrapers emit a **raw job** payload → n8n.
-- LLM returns **enriched job** JSON → Supabase `job_listings`.
-- Dashboard reads `job_listings` + `user_assets` only.
+- Scrapers emit a **raw job** payload → Stage 1 n8n.
+- Stage 1 loads `user_profile`, returns filter JSON only → Supabase (`generated_*` stay NULL).
+- Stage 2 loads `user_profile` + `user_assets`, returns pitch JSON → update that job’s `generated_*` columns.
+- Dashboard reads `job_listings` + `user_assets` + `user_profile`; Draft Pitch is the only pitch trigger.
 - Do not couple scrapers to Next.js UI code.
